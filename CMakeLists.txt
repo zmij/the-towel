@@ -29,7 +29,7 @@ else()
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-add_definitions("-std=c++17")
+add_definitions("-std=c++14")
 
 set(TIP_${LIB_NAME}_LIB ${PROJECT_PREFIX}-${lib_name})
 
