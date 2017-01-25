@@ -32,3 +32,5 @@
 .project
 .cproject
 
+# Build trees
+*build
