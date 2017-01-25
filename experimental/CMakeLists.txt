@@ -21,6 +21,7 @@ set(
     # Add your sources here
     fibonacci.cpp
     iostreamable.cpp
+    has_call_operator.cpp
 )
 add_executable(test-experiments ${test_program_SRCS})
 target_link_libraries(
