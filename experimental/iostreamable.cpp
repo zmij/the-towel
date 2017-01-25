@@ -1,8 +1,8 @@
 /*
  * iostreamable.cpp
  *
- *  Created on: 26 янв. 2017 г.
- *      Author: sergey.fedorov
+ *  Created on: Jan 26, 2017
+ *      Author: Sergei Fedorov
  */
 
 #include <gtest/gtest.h>

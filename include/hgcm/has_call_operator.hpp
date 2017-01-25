@@ -1,8 +1,8 @@
 /*
  * has_call_operator.hpp
  *
- *  Created on: 26 янв. 2017 г.
- *      Author: sergey.fedorov
+ *  Created on: Jan 26, 2017
+ *      Author: Sergei Fedorov
  */
 
 #ifndef HGCM_HAS_CALL_OPERATOR_HPP_
