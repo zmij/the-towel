@@ -37,3 +37,4 @@ enable_testing()
 
 # Add subdirectories here
 add_subdirectory(experimental)
+add_subdirectory(vol1)
