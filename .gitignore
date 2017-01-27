@@ -31,6 +31,7 @@
 # Eclipse project files
 .project
 .cproject
+*.settings
 
 # Build trees
 *build

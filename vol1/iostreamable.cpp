@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/iostreamable.hpp>
+#include <hgcm/vol1/iostreamable.hpp>
 
 namespace hgcm {
 

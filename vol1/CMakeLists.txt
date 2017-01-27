@@ -1,7 +1,7 @@
-#    /the-towel/experimental/CMakeLists.txt
+#    /the-towel/vol1/CMakeLists.txt
 #
 #    @author zmij
-#    @date Jan 27, 2017
+#    @date Jan 25, 2017
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -19,12 +19,12 @@ include_directories(${GTEST_INCLUDE_DIRS})
 set(
     test_program_SRCS
     # Add your sources here
-    fibonacci.cpp
-    variadic_packs.cpp
+    iostreamable.cpp
+    has_call_operator.cpp
 )
-add_executable(test-experiments ${test_program_SRCS})
+add_executable(test-vol1 ${test_program_SRCS})
 target_link_libraries(
-    test-experiments
+    test-vol1
     ${GTEST_BOTH_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
     # Add your libraries here
@@ -33,11 +33,11 @@ target_link_libraries(
 if (GTEST_XML_OUTPUT)
     set (
         TEST_ARGS
-        --gtest_output=xml:test-utils-detail.xml
+        --gtest_output=xml:test-volume-1-detail.xml
     )
 endif()
 
 add_test(
-    NAME test-experiments
-    COMMAND test-experiments ${TEST_ARGS}
+    NAME test-volume-1
+    COMMAND test-vol1 ${TEST_ARGS}
 )
