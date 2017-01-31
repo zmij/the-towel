@@ -19,9 +19,10 @@ include_directories(${GTEST_INCLUDE_DIRS})
 set(
     test_program_SRCS
     # Add your sources here
-    iostreamable.cpp
-    has_call_operator.cpp
     is_metafunction.cpp
+    has_name.cpp
+    has_call_operator.cpp
+    iostreamable.cpp
 )
 add_executable(test-vol1 ${test_program_SRCS})
 target_link_libraries(
