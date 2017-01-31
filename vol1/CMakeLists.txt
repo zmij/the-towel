@@ -21,6 +21,7 @@ set(
     # Add your sources here
     iostreamable.cpp
     has_call_operator.cpp
+    is_metafunction.cpp
 )
 add_executable(test-vol1 ${test_program_SRCS})
 target_link_libraries(
