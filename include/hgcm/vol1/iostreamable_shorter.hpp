@@ -9,42 +9,40 @@
 #define HGCM_VOL1_IOSTREAMABLE_HPP_
 
 #include <type_traits>
+#include <iosfwd>
 
 namespace hgcmp {
 
 namespace detail {
-struct _io_meta_function_helper_ {
-    template <typename T> _io_meta_function_helper_(T const&);
+template < typename T >
+class has_output_operator_impl {
+    template < typename U >
+    using helper = decltype( ::std::declval<::std::ostream&>() << ::std::declval<U>(), void() );
+
+    template < typename U = T>
+    static ::std::true_type  test(helper<U>*);
+    static ::std::false_type test(...);
+public:
+    using type = decltype(test(nullptr));
 };
 
-::std::false_type
-operator << (::std::ostream const&, _io_meta_function_helper_ const&);
-::std::false_type
-operator >> (::std::istream const&, _io_meta_function_helper_ const&);
-
-::std::true_type
-_test_for_io_stream_(::std::ostream&);
-::std::true_type
- _test_for_io_stream_(::std::istream&);
-::std::false_type
- _test_for_io_stream_(::std::false_type);
-
 template < typename T >
-struct has_output_operator_impl :
-    decltype(detail::_test_for_io_stream_(
-        ::std::declval<::std::ostream&>() << ::std::declval<T>())) {};
+class has_input_operator_impl {
+    template < typename U >
+    using helper = decltype( ::std::declval<::std::istream&>() >> ::std::declval<U&>(), void() );
 
-template < typename T >
-struct has_input_operator_impl :
-    decltype(detail::_test_for_io_stream_(
-        ::std::declval<::std::istream&>() >> ::std::declval<T&>())) {};
-
+    template < typename U = T>
+    static ::std::true_type  test(helper<U>*);
+    static ::std::false_type test(...);
+public:
+    using type = decltype(test(nullptr));
+};
 }  /* namespace detail */
 
 template < typename T >
-struct has_output_operator : detail::has_output_operator_impl<T> {};
+struct has_output_operator : detail::has_output_operator_impl<T>::type {};
 template < typename T >
-struct has_input_operator : detail::has_input_operator_impl<T> {};
+struct has_input_operator : detail::has_input_operator_impl<T>::type {};
 
 }  /* namespace hgcm */
 
