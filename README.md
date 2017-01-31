@@ -5,7 +5,7 @@ Sergei Fedorov, "Hitchhiker's Guide to C++ Metaprogramming", *ISBN 978-1-78712-8
 
 ### Namespace for the code
 
-All code will be wrapped in `hgcm` namespace which stands for the name of the course.
+All code will be wrapped in `hgcmp` namespace which stands for the name of the course.
 
 ### Building the Code
 

@@ -10,7 +10,7 @@
 
 #include <type_traits>
 
-namespace hgcm {
+namespace hgcmp {
 
 template < ::std::size_t N >
 struct fibonacci {

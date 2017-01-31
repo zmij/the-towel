@@ -8,7 +8,7 @@
 #include <gtest/gtest.h>
 #include <hgcm/vol1/has_call_operator.hpp>
 
-namespace hgcm {
+namespace hgcmp {
 
 struct with_call_operator {
     void

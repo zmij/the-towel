@@ -10,7 +10,7 @@
 
 #include <type_traits>
 
-namespace hgcm {
+namespace hgcmp {
 
 namespace detail {
 

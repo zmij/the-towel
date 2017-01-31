@@ -12,7 +12,7 @@
 #include <utility>
 #include <tuple>
 
-namespace hgcm {
+namespace hgcmp {
 namespace experimental {
 
 template < typename ... T >

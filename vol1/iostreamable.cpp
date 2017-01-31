@@ -6,9 +6,9 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/vol1/iostreamable.hpp>
+#include <hgcm/vol1/iostreamable_shorter.hpp>
 
-namespace hgcm {
+namespace hgcmp {
 
 struct __not_streamable {};
 

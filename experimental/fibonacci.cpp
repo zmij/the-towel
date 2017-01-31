@@ -8,7 +8,7 @@
 #include <gtest/gtest.h>
 #include <hgcm/fibonacci.hpp>
 
-namespace hgcm {
+namespace hgcmp {
 
 TEST(Fibonacci, Pass)
 {
