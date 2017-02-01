@@ -12,40 +12,29 @@
 
 namespace hgcmp {
 
-namespace detail {
-struct _io_meta_function_helper_ {
-    template <typename T> _io_meta_function_helper_(T const&);
-};
+template < typename T >
+class has_output_operator {
+    template < typename U >
+    using helper = decltype( ::std::declval<::std::ostream&>() << ::std::declval<U>(), void() );
 
-::std::false_type
-operator << (::std::ostream const&, _io_meta_function_helper_ const&);
-::std::false_type
-operator >> (::std::istream const&, _io_meta_function_helper_ const&);
-
-template <typename T>
-class has_output_operator_impl {
-    static ::std::false_type test(::std::false_type);
-    static ::std::true_type  test(::std::ostream&);
+    template < typename U = T>
+    static ::std::true_type  test(helper<U>*);
+    static ::std::false_type test(...);
 public:
-    using type = decltype(
-        test( ::std::declval<::std::ostream&>() << ::std::declval<T>() ) );
+    using type = decltype(test(nullptr));
 };
-
-template <typename T>
-class has_input_operator_impl {
-    static ::std::false_type test(::std::false_type);
-    static ::std::true_type  test(::std::istream&);
-public:
-    using type = decltype(
-        test( ::std::declval<::std::istream&>() >> ::std::declval<T&>() ) );
-};
-
-}  /* namespace detail */
 
 template < typename T >
-struct has_output_operator : detail::has_output_operator_impl<T>::type {};
-template < typename T >
-struct has_input_operator : detail::has_input_operator_impl<T>::type {};
+class has_input_operator {
+    template < typename U >
+    using helper = decltype( ::std::declval<::std::istream&>() >> ::std::declval<U&>(), void() );
+
+    template < typename U = T>
+    static ::std::true_type  test(helper<U>*);
+    static ::std::false_type test(...);
+public:
+    using type = decltype(test(nullptr));
+};
 
 }  /* namespace hgcm */
 

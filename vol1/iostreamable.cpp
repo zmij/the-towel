@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/vol1/iostreamable_shorter.hpp>
+#include <hgcm/vol1/iostreamable.hpp>
 
 namespace hgcmp {
 
@@ -18,13 +18,9 @@ TEST(Traits, IOStreamable)
         << "Int has an input operator";
     EXPECT_TRUE( has_output_operator<int>::type::value )
         << "Int has an output operator";
-    EXPECT_TRUE( has_input_operator<int>::value )
-        << "Int has an input operator";
-    EXPECT_TRUE( has_output_operator<int>::value )
-        << "Int has an output operator";
-    EXPECT_FALSE( has_input_operator<__not_streamable>::value )
+    EXPECT_FALSE( has_input_operator<__not_streamable>::type::value )
         << "Test structure doesn't have an input operator";
-    EXPECT_FALSE( has_output_operator<__not_streamable>::value )
+    EXPECT_FALSE( has_output_operator<__not_streamable>::type::value )
         << "Test structure doesn't have an input operator";
 }
 
