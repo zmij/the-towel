@@ -57,6 +57,17 @@ TEST(Traits, CallOperator)
     EXPECT_FALSE(has_call_operator<with_variadic_call_operator>::type::value)
         << "The call operator is templated, thus not detected";
 
+    EXPECT_TRUE(second::has_call_operator<with_call_operator>::type::value)
+        << "The call operator is there";
+    EXPECT_FALSE(second::has_call_operator<no_call_operator>::type::value)
+        << "The call operator is not there";
+    EXPECT_FALSE(second::has_call_operator<with_multiple_operator_overloads>::type::value)
+        << "The call operator is templated, thus not detected";
+    EXPECT_FALSE(second::has_call_operator<with_template_call_operator>::type::value)
+        << "The call operator is templated, thus not detected";
+    EXPECT_FALSE(second::has_call_operator<with_variadic_call_operator>::type::value)
+        << "The call operator is templated, thus not detected";
+
     EXPECT_FALSE(is_callable<no_call_operator>::type::value)
         << "The call operator is not there";
     EXPECT_TRUE(is_callable<with_multiple_operator_overloads>::type::value)

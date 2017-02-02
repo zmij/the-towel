@@ -9,9 +9,11 @@
 #define HGCM_VOL1_IOSTREAMABLE_HPP_
 
 #include <type_traits>
+#include <hgcm/vol1/void_t.hpp>
 
 namespace hgcmp {
 
+inline namespace first {
 template < typename T >
 class has_output_operator {
     template < typename U >
@@ -35,6 +37,29 @@ class has_input_operator {
 public:
     using type = decltype(test(nullptr));
 };
+}
+
+namespace second {
+
+template < typename T, typename = void_t<> >
+struct has_output_operator : ::std::false_type {};
+
+template < typename T >
+struct has_output_operator< T,
+    void_t< decltype(
+        ::std::declval<::std::ostream&>() << ::std::declval<T>()) >>
+             : ::std::true_type {};
+
+template < typename T, typename = void_t<> >
+struct has_input_operator : ::std::false_type {};
+
+template < typename T >
+struct has_input_operator< T,
+    void_t< decltype(
+        ::std::declval<::std::istream&>() >> ::std::declval<T&>()) >>
+             : ::std::true_type {};
+
+}  /* namespace second */
 
 }  /* namespace hgcm */
 

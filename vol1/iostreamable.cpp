@@ -22,6 +22,14 @@ TEST(Traits, IOStreamable)
         << "Test structure doesn't have an input operator";
     EXPECT_FALSE( has_output_operator<__not_streamable>::type::value )
         << "Test structure doesn't have an input operator";
+    EXPECT_TRUE( second::has_input_operator<int>::type::value )
+        << "Int has an input operator";
+    EXPECT_TRUE( second::has_output_operator<int>::type::value )
+        << "Int has an output operator";
+    EXPECT_FALSE( second::has_input_operator<__not_streamable>::type::value )
+        << "Test structure doesn't have an input operator";
+    EXPECT_FALSE( second::has_output_operator<__not_streamable>::type::value )
+        << "Test structure doesn't have an input operator";
 }
 
 } // namespace test

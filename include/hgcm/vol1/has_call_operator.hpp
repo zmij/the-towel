@@ -9,9 +9,10 @@
 #define HGCM_HAS_CALL_OPERATOR_HPP_
 
 #include <type_traits>
+#include <hgcm/vol1/void_t.hpp>
 
 namespace hgcmp {
-
+inline namespace first {
 template< typename T >
 class has_call_operator {
     template < typename U = T>
@@ -30,16 +31,16 @@ class is_callable {
 public:
     using type = decltype(test(nullptr));
 };
+}  /* namespace first */
+namespace second {
 
+template < typename T, typename = void_t<> >
+struct has_call_operator : ::std::false_type {};
+
+template < typename T >
+struct has_call_operator<T, void_t< decltype( &T::operator() ) >> : ::std::true_type {};
+
+}  /* namespace second */
 }  /* namespace hgcm */
 
-#define MAKE_CHECK_EXPRESSION(name, expression) \
-template < typename T  > \
-class name { \
-    template < typename U = T> \
-    static ::std::true_type  test( decltype( expression, void() )* ); \
-    static ::std::false_type test(...); \
-public: \
-    using type = decltype(test(nullptr)); \
-};
 #endif /* HGCM_HAS_CALL_OPERATOR_HPP_ */
