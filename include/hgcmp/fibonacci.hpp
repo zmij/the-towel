@@ -48,23 +48,23 @@ namespace second {
  */
 template < ::std::size_t N >
 struct fibonacci {
-    static constexpr ::std::size_t value = fibonacci<N - 2>::value +
-            fibonacci<N - 1>::value;
-    using type = ::std::integral_constant< ::std::size_t, value>;
+    using type = ::std::integral_constant< ::std::size_t,
+            fibonacci<N - 2>::value + fibonacci<N - 1>::value>;
+    static constexpr ::std::size_t value = type::value;
 };
 
 //@{
 /** @name Terminal specializations */
 template <>
 struct fibonacci<0> {
-    static constexpr ::std::size_t value = 0;
-    using type = ::std::integral_constant<::std::size_t, value>;
+    using type = ::std::integral_constant<::std::size_t, 0>;
+    static constexpr ::std::size_t value = type::value;
 };
 
 template <>
 struct fibonacci<1> {
-    static constexpr ::std::size_t value = 1;
-    using type = ::std::integral_constant<::std::size_t, value>;
+    using type = ::std::integral_constant<::std::size_t, 1>;
+    static constexpr ::std::size_t value = type::value;
 };
 //@}
 } /* namespace second */
