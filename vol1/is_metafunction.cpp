@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/vol1/is_metafunction.hpp>
+#include <hgcmp/vol1/is_metafunction.hpp>
 
 namespace hgcmp {
 

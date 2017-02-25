@@ -5,11 +5,11 @@
  *      Author: zmij
  */
 
-#ifndef HGCM_VOL1_IS_METAFUNCTION_HPP_
-#define HGCM_VOL1_IS_METAFUNCTION_HPP_
+#ifndef HGCMP_VOL1_IS_METAFUNCTION_HPP_
+#define HGCMP_VOL1_IS_METAFUNCTION_HPP_
 
+#include <hgcmp/vol1/void_t.hpp>
 #include <type_traits>
-#include <hgcm/vol1/void_t.hpp>
 
 namespace hgcmp {
 inline namespace first {
@@ -35,4 +35,4 @@ struct is_metafunction<T, void_t<typename T::type>> : ::std::true_type {};
 
 
 
-#endif /* HGCM_VOL1_IS_METAFUNCTION_HPP_ */
+#endif /* HGCMP_VOL1_IS_METAFUNCTION_HPP_ */

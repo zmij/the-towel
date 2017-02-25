@@ -5,11 +5,11 @@
  *      Author: Sergei Fedorov
  */
 
-#ifndef HGCM_VOL1_IOSTREAMABLE_HPP_
-#define HGCM_VOL1_IOSTREAMABLE_HPP_
+#ifndef HGCMP_VOL1_IOSTREAMABLE_HPP_
+#define HGCMP_VOL1_IOSTREAMABLE_HPP_
 
+#include <hgcmp/vol1/void_t.hpp>
 #include <type_traits>
-#include <hgcm/vol1/void_t.hpp>
 
 namespace hgcmp {
 
@@ -63,4 +63,4 @@ struct has_input_operator< T,
 
 }  /* namespace hgcm */
 
-#endif /* HGCM_VOL1_IOSTREAMABLE_HPP_ */
+#endif /* HGCMP_VOL1_IOSTREAMABLE_HPP_ */

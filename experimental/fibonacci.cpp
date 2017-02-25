@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/fibonacci.hpp>
+#include <hgcmp/fibonacci.hpp>
 
 namespace hgcmp {
 

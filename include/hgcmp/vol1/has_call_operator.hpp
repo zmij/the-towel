@@ -8,8 +8,8 @@
 #ifndef HGCM_HAS_CALL_OPERATOR_HPP_
 #define HGCM_HAS_CALL_OPERATOR_HPP_
 
+#include <hgcmp/vol1/void_t.hpp>
 #include <type_traits>
-#include <hgcm/vol1/void_t.hpp>
 
 namespace hgcmp {
 inline namespace first {

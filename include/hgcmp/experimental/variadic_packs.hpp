@@ -5,8 +5,8 @@
  *      Author: zmij
  */
 
-#ifndef HGCM_EXPERIMENTAL_VARIADIC_PACKS_HPP_
-#define HGCM_EXPERIMENTAL_VARIADIC_PACKS_HPP_
+#ifndef HGCMP_EXPERIMENTAL_VARIADIC_PACKS_HPP_
+#define HGCMP_EXPERIMENTAL_VARIADIC_PACKS_HPP_
 
 #include <type_traits>
 #include <utility>
@@ -143,4 +143,4 @@ struct reverse_c {
 
 
 
-#endif /* HGCM_EXPERIMENTAL_VARIADIC_PACKS_HPP_ */
+#endif /* HGCMP_EXPERIMENTAL_VARIADIC_PACKS_HPP_ */

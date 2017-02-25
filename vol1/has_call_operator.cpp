@@ -6,7 +6,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <hgcm/vol1/has_call_operator.hpp>
+#include <hgcmp/vol1/has_call_operator.hpp>
 
 namespace hgcmp {
 

@@ -5,8 +5,8 @@
  *      Author: zmij
  */
 
-#ifndef HGCM_FIBONACCI_HPP_
-#define HGCM_FIBONACCI_HPP_
+#ifndef HGCMP_FIBONACCI_HPP_
+#define HGCMP_FIBONACCI_HPP_
 
 #include <type_traits>
 
@@ -93,4 +93,4 @@ struct fibonacci<1> : ::std::integral_constant<::std::size_t, 1> {};
 }  /* namespace hgcm */
 
 
-#endif /* HGCM_FIBONACCI_HPP_ */
+#endif /* HGCMP_FIBONACCI_HPP_ */

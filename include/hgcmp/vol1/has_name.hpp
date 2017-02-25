@@ -5,8 +5,8 @@
  *      Author: zmij
  */
 
-#ifndef HGCM_VOL1_HAS_NAME_HPP_
-#define HGCM_VOL1_HAS_NAME_HPP_
+#ifndef HGCMP_VOL1_HAS_NAME_HPP_
+#define HGCMP_VOL1_HAS_NAME_HPP_
 
 #include <type_traits>
 
@@ -26,4 +26,4 @@ public:
 
 
 
-#endif /* HGCM_VOL1_HAS_NAME_HPP_ */
+#endif /* HGCMP_VOL1_HAS_NAME_HPP_ */

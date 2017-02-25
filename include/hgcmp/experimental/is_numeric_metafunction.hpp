@@ -5,8 +5,8 @@
  *      Author: sergey.fedorov
  */
 
-#ifndef HGCM_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_
-#define HGCM_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_
+#ifndef HGCMP_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_
+#define HGCMP_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_
 
 #include <type_traits>
 
@@ -21,4 +21,4 @@ struct is_numeric_metafunction< ::std::integral_constant<T, V> > : ::std::true_t
 }  /* namespace hgcmp */
 
 
-#endif /* HGCM_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_ */
+#endif /* HGCMP_EXPERIMENTAL_IS_NUMERIC_METAFUNCTION_HPP_ */
