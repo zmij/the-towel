@@ -90,9 +90,34 @@ struct push_front<char_sequence<Chars...>, C> {
 
 //----------------------------------------------------------------------------
 
+template < typename T, typename U >
+struct includes;
+
+template < char MinA, char MaxA, char MinB, char MaxB >
+struct includes< char_range< MinA, MaxA >, char_range< MinB, MaxB > > {
+    using type = ::std::integral_constant< bool, ( MinA <= MinB && MaxB <= MaxA ) >;
+};
+
+template < typename T, typename U >
+struct overlaps;
+
+template < char MinA, char MaxA, char MinB, char MaxB >
+struct overlaps <char_range< MinA, MaxA >, char_range< MinB, MaxB > > {
+    using type = ::std::integral_constant< bool, !( MaxA < MinB || MaxB < MinA ) >;
+};
+
 //----------------------------------------------------------------------------
 template < typename ... T >
 struct join;
+
+template < typename T >
+struct join < T > {
+    using type = T;
+};
+
+template < typename T, typename U, typename ... V >
+struct join< T, U, V... >
+    : join< typename join< T, U >::type, V... > {};
 
 template < typename T, T ... A, T... B >
 struct join< ::std::integer_sequence<T, A...>, ::std::integer_sequence<T, B...> > {
@@ -120,6 +145,15 @@ strlen(char const* str)
     return sz;
 }
 
+constexpr char
+min(char a, char b)
+{ return a < b ? a : b; }
+
+constexpr char
+max(char a, char b)
+{ return a > b ? a : b; }
+
+
 template < char const* Str, typename T >
 struct make_char_sequence_impl;
 
@@ -129,13 +163,13 @@ struct make_char_sequence_impl<Str, ::std::integer_sequence< ::std::size_t, Inde
 };
 
 template < char Min, char Max, char ... Chars >
-struct unwrap_char_range_impl {
+struct unwrap_char_range {
     static_assert(Min < Max, "Starting char of the range must be less than ending");
-    using type = typename unwrap_char_range_impl< Min, Max - 1, Max, Chars... >::type;
+    using type = typename unwrap_char_range< Min, Max - 1, Max, Chars... >::type;
 };
 
 template < char C, char ... Chars >
-struct unwrap_char_range_impl< C, C, Chars ... > {
+struct unwrap_char_range< C, C, Chars ... > {
     using type = char_sequence<C, Chars...>;
 };
 
@@ -268,24 +302,95 @@ struct unique_sort<char_sequence<Chars...>> {
     using type              = typename join< low_sorted, high_sorted >::type;
 };
 
+template < char A, char B, char C >
+struct join< char_range<A, B>, char_range<B, C> > {
+    using type = char_range< A, C >;
+};
 
+template < char A, char B, char C >
+struct join< char_range<A, B>, char_range<B + 1, C> > {
+    using type = char_range< A, C >;
+};
+
+template < char A, char B, char C >
+struct join< char_range<B, C>, char_range<A, B> > {
+    using type = char_range< A, C >;
+};
+
+template < char A, char B, char C >
+struct join< char_range<B + 1, C>, char_range<A, B> > {
+    using type = char_range< A, C >;
+};
+
+namespace detail {
+
+template < char A, char B, char C, char D, bool >
+struct overlapping_range_join {
+    using type = char_range< min(A, C), max(B, D) >;
+};
+
+template < char A, char B, char C, char D >
+struct overlapping_range_join< A, B, C, D, false > {
+    using type = typename unique_sort<
+            typename join<
+                typename unwrap_char_range< A, B >::type,
+                typename unwrap_char_range< C, D >::type
+            >::type
+        >::type;
+};
+
+}  /* namespace detail */
+
+template < char A, char B, char C, char D >
+struct join< char_range<A, B>, char_range<C, D> >
+    : detail::overlapping_range_join< A, B, C, D,
+            overlaps< char_range<A, B>,
+                char_range<C, D>>::type::value > {};
+
+//----------------------------------------------------------------------------
+template < char A, char B >
+struct join< char_range<A, B>, char_sequence<> > {
+    using type = char_range<A, B>;
+};
+
+template < char A, char B, char ... Chars >
+struct join< char_range<A, B>, char_sequence<Chars...> > {
+    using type = typename unique_sort<
+            typename join<
+                typename detail::unwrap_char_range< A, B >::type,
+                char_sequence< Chars... >
+            >::type
+        >::type;
+};
+
+template < char A, char B >
+struct join< char_sequence<>, char_range<A, B> > {
+    using type = char_range<A, B>;
+};
+
+template < char ... Chars, char A, char B >
+struct join< char_sequence<Chars...>, char_range<A, B> > {
+    using type = typename unique_sort<
+            typename join<
+                typename detail::unwrap_char_range< A, B >::type,
+                char_sequence< Chars... >
+            >::type
+        >::type;
+};
+
+//----------------------------------------------------------------------------
 template < char const* Str >
 using make_char_sequence = typename detail::make_char_sequence_impl<Str,
                                 ::std::make_index_sequence<detail::strlen(Str)>>::type;
 
 
-template < char const* Str, typename T, T Value, T Default = T{} >
+template < typename Charset, typename T, T Value, T Default = T{} >
 struct char_class {
-    using charset = make_char_sequence< Str >;
-
+    using charset = Charset;
     template < char C >
     struct class_of : detail::conditional_c< contains< charset, C >::value, T, Value, Default > {};
 };
 
-template < typename ... Classificators >
-struct char_table {
-
-};
 
 } /* namespace hgcmp */
 
