@@ -11,6 +11,7 @@
 #include <type_traits>
 
 namespace hgcmp {
+namespace experimental {
 
 namespace detail {
 
@@ -30,69 +31,69 @@ struct enumerators  {
     static constexpr iterator
     position(value_type v)
     {
-        auto p = begin;
-        for (; p != end; ++p) {
-            if (*p == v)
-                break;
-        }
-        return p;
+    		iterator left = begin;
+    		iterator right = end;
+    		while (left != right) {
+    			iterator mid = left + (right - left) / 2;
+    			if (v <= *mid) {
+    				right = mid;
+    			} else {
+    				left = mid + 1;
+    			}
+    		}
+    		if (v == *right)
+    			return right;
+        return end;
     }
 };
 
 template < typename T, T ... Enumerators >
 constexpr const T enumerators<T, Enumerators...>::values[];
 
+template < typename Enum >
+struct enumerators< Enum > {
+	static_assert(::std::is_same< Enum, Enum >::value, "enum_traits were not defined");
+};
+
 } /* namespace detail */
 
 
 template < typename T >
-struct enum_traits_base {
-    using value_type    = T;
-    using iterator      = T const*;
-};
-
-template < typename T >
-struct enum_traits : enum_traits_base<T> {
-    using value_type    = typename enum_traits_base<T>::value_type;
-    using iterator      = typename enum_traits_base<T>::iterator;
+struct enum_traits {
     using enumerators   = detail::enumerators<T>;
 };
 
 namespace detail {
 
-struct enum_begin_type {};
-struct enum_end_type   {};
+struct enum_begin {
+	constexpr enum_begin() {}
+};
+struct enum_end   {
+	constexpr enum_end()   {}
+};
+} /* namespace detail */
 
-template < typename T, bool >
-struct enum_value_range_impl {
-    using traits_type   = enum_traits<T>;
-    using value_type    = typename traits_type::value_type;
-    using iterator      = typename traits_type::iterator;
-    using enumerators   = typename traits_type::enumerators;
+constexpr detail::enum_begin const enum_begin{};
+constexpr detail::enum_end   const enum_end{};
 
-    constexpr
-    enum_value_range_impl()
-        : enum_value_range_impl{enumerators::begin, enumerators::end} {}
+template < typename Enum >
+struct enum_value_range {
+	static_assert(::std::is_enum< Enum >::value, "Cannot instantiate enum_value_range for a non-enum");
+	using traits_type	= enum_traits< Enum >;
+	using enumerators	= typename traits_type::enumerators;
+	using value_type		= typename enumerators::value_type;
+	using iterator		= typename enumerators::iterator;
 
-    constexpr
-    enum_value_range_impl(value_type first, value_type last)
-        : enum_value_range_impl{
-            enumerators::position(first), enumerators::position(last)} {}
-
-    constexpr
-    enum_value_range_impl(value_type first, enum_end_type)
-        : enum_value_range_impl{
-            enumerators::position(first), enumerators::end} {}
-
-    constexpr
-    enum_value_range_impl(enum_begin_type, value_type last)
-        : enum_value_range_impl{
-            enumerators::begin, enumerators::position(last)} {}
-
-    constexpr
-    enum_value_range_impl(enum_value_range_impl const&) = default;
-    constexpr
-    enum_value_range_impl(enum_value_range_impl&&) = default;
+	constexpr enum_value_range()
+		: enum_value_range{ enumerators::begin, enumerators::end } {}
+	constexpr enum_value_range(value_type begin, value_type end)
+		: enum_value_range{ enumerators::position(begin), enumerators::position(end) } {}
+	constexpr enum_value_range(detail::enum_begin, value_type end)
+		: enum_value_range{ enumerators::begin, enumerators::position(end) } {}
+	constexpr enum_value_range(value_type begin, detail::enum_end)
+		: enum_value_range{ enumerators::position(begin), enumerators::end } {}
+	constexpr enum_value_range(enum_value_range const&) = default;
+	constexpr enum_value_range(enum_value_range&&) = default;
 
     constexpr ::std::size_t
     size() const
@@ -115,50 +116,33 @@ struct enum_value_range_impl {
     back() const
     { return *(end_ - 1); }
 private:
-    constexpr
-    enum_value_range_impl(iterator first, iterator last)
-        : begin_{first}, end_{last} {}
-private:
-    iterator begin_;
-    iterator end_;
+	constexpr enum_value_range(iterator b, iterator e)
+		: begin_{b}, end_{e} {}
+	iterator begin_;
+	iterator end_;
 };
 
-template < typename T >
-struct enum_value_range_impl<T, false> {
-    static_assert( ::std::is_enum<T>::value, "Cannot instantiate enum_value_range for a non-enum" );
-};
-
-} /* namespace detail */
-
-detail::enum_begin_type const enum_begin{};
-detail::enum_end_type   const enum_end{};
-
-template < typename T >
-struct enum_value_range : detail::enum_value_range_impl<T, ::std::is_enum<T>::value> {
-    using base_type     = detail::enum_value_range_impl<T, ::std::is_enum<T>::value>;
-    using base_type::base_type;
-};
-
-template < typename T >
-constexpr enum_value_range<T>
+template <typename Enum>
+enum_value_range<Enum>
 enum_range()
 { return {}; }
 
-template < typename T >
-constexpr enum_value_range<T>
-enum_range(T first, T last)
-{ return { first, last }; }
+template <typename Enum>
+enum_value_range<Enum>
+enum_range(Enum begin, Enum end)
+{ return { begin, end }; }
 
-template < typename T >
-constexpr enum_value_range<T>
-enum_range(T first, detail::enum_end_type e)
-{ return { first, e }; }
+template <typename Enum>
+enum_value_range<Enum>
+enum_range(detail::enum_begin begin, Enum end)
+{ return { begin, end }; }
 
-template < typename T >
-constexpr enum_value_range<T>
-enum_range(detail::enum_begin_type b, T last)
-{ return { b, last }; }
+template <typename Enum>
+enum_value_range<Enum>
+enum_range(Enum begin, detail::enum_end end)
+{ return { begin, end }; }
 
+}  // namespace experimental
 } /* namespace hgcmp */
 
 

@@ -10,6 +10,10 @@
 #include <iostream>
 
 namespace hgcmp {
+namespace experimental {
+
+
+
 namespace test {
 
 enum powers {
@@ -22,7 +26,7 @@ enum powers {
 } /* namespace test */
 
 template <>
-struct enum_traits< test::powers > : enum_traits_base<test::powers> {
+struct enum_traits< test::powers > {
     using enumerators = detail::enumerators<test::powers,
             test::zero, test::one, test::two, test::three, test::four>;
 };
@@ -54,5 +58,6 @@ TEST(EnumRange, PartRange)
 }
 
 } /* namespace test */
+}  // namespace experimental
 } /* namespace hgcmp */
 
